@@ -21,7 +21,7 @@ final public class Animate {
     boolean down = true;
     boolean left = false;
     boolean right = true;
-    int[] xArr = new int[]{oneX-100, oneX-50, oneX-150};  int[] yArr = new int[]{oneY-100, oneY-50, oneY-50};
+    int[] xArr = new int[]{100, 100, 0};  int[] yArr = new int[]{50, 0, 25};
     public static void main(String[] args) {
         new Animate().go();
     }
@@ -39,7 +39,6 @@ final public class Animate {
         frame.setSize(xSizePanel, ySizePanel);
         frame.setLocation(375, 55);
         moveDot();
-        //startRocket();
     }
 
     class DrawPanel extends JPanel {
@@ -49,20 +48,14 @@ final public class Animate {
 		private static final long serialVersionUID = -3030379568821478211L;
 		
 		public void paintComponent(Graphics g) {
-        	//White Border
-            g.setColor(BlueL);
-            g.fillRect(0, 0, this.getWidth(), this.getHeight());
+        	
             //Inside Color
             g.setColor(Color.BLACK);
-            g.fillRect(6, 6, this.getWidth()-12, this.getHeight()-12);
-            
-            //Comet
-            
+            g.fillRect(0,0,this.getWidth(), this.getHeight());
+                        
             g.setColor(Color.WHITE);
             g.fillOval(oneX, oneY, dotW, dotH);
-            // Make a triangle
-            g.setColor(Color.RED);
-            g.fillPolygon(xArr, yArr, 3);
+            
             //Earth
             g.setColor(BlueL);
             g.fillOval(-350, frame.getHeight()-500, 800, 800);
@@ -82,10 +75,12 @@ final public class Animate {
             //Rocket
             g.setColor(Color.pink);
             g.fillRoundRect(rocketX, rocketY, 20, 50, 10, 10);
-            
+         // Comet
             g.setColor(Color.RED);
-            g.drawPolygon(xArr, yArr, 3);
+            g.fillPolygon(xArr, yArr, 3);
             
+            
+                      
         }
     }
       
@@ -94,11 +89,17 @@ final public class Animate {
         while(true){
             checkBounds();
             moveLoc();
+            startRocket();
             try{
                 Thread.sleep(10);
             } catch (Exception exc){}
             frame.repaint();
         }
+    }
+    private void startRocket(){
+    	for(int i = 0; i < xArr.length; i++) {
+    		xArr[i]+= 5;
+    	}
     }
     private void moveLoc(){
     	if(up){
@@ -117,21 +118,28 @@ final public class Animate {
     }
     //
     private void checkBounds(){
-    	if(oneX+dotW  >= frame.getWidth()-15){
+    	if(oneX+dotW  >= frame.getWidth()){
             right = false;
             left = true;
         }
-        if(oneX <= 7){
+        if(oneX <= 0){
             right = true;
             left = false;
         }
-        if(oneY+dotH >= frame.getHeight()-35){
+        if(oneY+dotH >= frame.getHeight()){
             up = true;
             down = false;
         }
-        if(oneY <= 7){
+        if(oneY <= 0){
             up = false;
             down = true;
-        }	
+        }
+        for(int i = 0; i <xArr.length; i++) {
+        	if(xArr[i] > frame.getWidth()+ 500) {
+        		xArr[0] -= frame.getWidth() + 1000;
+        		xArr[1] -= frame.getWidth() + 1000;
+        		xArr[2] -= frame.getWidth() + 1000;
+        	}
+        }
     }
 }
