@@ -8,15 +8,18 @@ final public class Animate {
     private int xSizePanel = 1500;
     private int ySizePanel = 800;
     private Color BlueL = new Color(54,155,172);
+    private Color whiteTrans = new Color(255, 255, 255, 100);
     private int oneX = 200; // Starting X coordinate
     private int oneY = 200; // Starting Y coordinate
     
+    private int cometX = 0;//private int cometX = -1000;
+    private int cometY = 0;//private int cometY = -300;
     private int rocketX = 100;
     private int rocketY = 500;
     private int dotW = 50;
     private int dotH = 50;
 
-         
+    private int angle = 20;
     boolean up = false;
     boolean down = true;
     boolean left = false;
@@ -52,6 +55,10 @@ final public class Animate {
             //Inside Color
             g.setColor(Color.BLACK);
             g.fillRect(0,0,this.getWidth(), this.getHeight());
+            g.setColor(whiteTrans);
+            g.fillArc(cometX, cometY, 100, 100, 325, 10 );
+            g.setColor(new Color(255, 255, 255, 200));
+            g.fillOval(cometX+90, cometY+71, 13, 13);
                         
             g.setColor(Color.WHITE);
             g.fillOval(oneX, oneY, dotW, dotH);
@@ -76,19 +83,21 @@ final public class Animate {
             g.setColor(Color.pink);
             g.fillRoundRect(rocketX, rocketY, 20, 50, 10, 10);
          // Comet
-            g.setColor(Color.RED);
+            g.setColor(Color.WHITE);
             g.fillPolygon(xArr, yArr, 3);
+            
             
             
                       
         }
     }
       
-
+   
     private void moveDot() {
         while(true){
             checkBounds();
             moveLoc();
+            startComet();
             startRocket();
             try{
                 Thread.sleep(10);
@@ -96,9 +105,15 @@ final public class Animate {
             frame.repaint();
         }
     }
+    private void startComet() {
+    	cometX+=2;
+    	cometY+= 1;
+    	angle++;
+    }
     private void startRocket(){
     	for(int i = 0; i < xArr.length; i++) {
-    		xArr[i]+= 5;
+    		xArr[i]+= 4;
+    		yArr[i]+= 1;
     	}
     }
     private void moveLoc(){
@@ -133,6 +148,10 @@ final public class Animate {
         if(oneY <= 0){
             up = false;
             down = true;
+        }
+        if( (cometX > frame.getWidth() +500) && (cometY >frame.getHeight()+ 500) ) {
+        	cometX = -1000;
+        	cometY = -300;
         }
         for(int i = 0; i <xArr.length; i++) {
         	if(xArr[i] > frame.getWidth()+ 500) {
