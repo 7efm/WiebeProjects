@@ -5,18 +5,17 @@ final public class Animate {
 
     JFrame frame;
     DrawPanel drawPanel;
-    private int sleeper = 0;
-    private int opacity = 255;
+    private int sleepTime = 0;
     private int xSizePanel = 1500;
     private int ySizePanel = 800;
     private Color BlueL = new Color(54,155,172);
     private Color whiteTrans = new Color(255, 255, 255, 100);
     private Color BrownL = new Color(242, 233, 228);
-    private Color orangeRedTrans = new Color(250, 121, 33, opacity);
+    private Color orangeRedTrans = new Color(250, 121, 33);
     private Color green2 = new Color(155, 197, 61);
     private int fire = 0;
-    private int cometX = 0;//private int cometX = -1000;
-    private int cometY = 0;//private int cometY = -300;
+    private int cometX = 0;
+    private int cometY = 0;
     private int dotW = 0;
         		
     
@@ -48,9 +47,7 @@ final public class Animate {
     }
 
     class DrawPanel extends JPanel {
-		/**
-		 * 
-		 */
+		
 		private static final long serialVersionUID = -3030379568821478211L;
 		
 		public void paintComponent(Graphics g) {
@@ -128,7 +125,7 @@ final public class Animate {
     	cometY+= 1;
     }
     private void startRocket(){
-    	if(sleeper > 100) {
+    	if(sleepTime > 100) {
     	for(int i = 0; i < xArr.length; i++) {
     		xArr[i] += 1;
     		xArrR[i] += 1;
@@ -147,17 +144,13 @@ final public class Animate {
     	    	fire --;
     	    }else if(xArr[0] < frame.getWidth() - 800) {
     	    	fire = 23;
+    	    	}
     	    }
     	}
-    	}
-    	sleeper++;
-
-    }
+    	sleepTime++;
+    	}   
     
-    //
-    private void checkBounds(){
-    	
-        
+    private void checkBounds(){    	      
         if( (cometX > frame.getWidth() +500) && (cometY >frame.getHeight()+ 500) ) {
         	cometX = -1000;
         	cometY = -300;
