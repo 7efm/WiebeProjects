@@ -8,11 +8,13 @@ final public class Animate {
     private int sleepTime = 0;
     private int xSizePanel = 1500;
     private int ySizePanel = 800;
+    
     private Color BlueL = new Color(54,155,172);
     private Color whiteTrans = new Color(255, 255, 255, 100);
     private Color BrownL = new Color(242, 233, 228);
     private Color orangeRedTrans = new Color(250, 121, 33);
     private Color green2 = new Color(155, 197, 61);
+    
     private int fire = 0;
     private int cometX = 0;
     private int cometY = 0;
@@ -23,7 +25,7 @@ final public class Animate {
     boolean down = true;
     boolean left = false;
     boolean right = true;
-    
+    //Array for polygons
     int[] xCont = new int[] {-20, 50, 30, 300, 350, 300, 200}; int[] yCont = new int[] {320, 400, 600, 800, 600, 420, 340};
     int[] xArr = new int[]{100, 115, 117, 102};  int[] yArr = new int[]{400, 395, 400, 405};//rocket
     int[] xArrR = new int[] {101, 102, 100, 98}; int[] yArrR = new int[] {401, 403, 405, 401};//rocket thrusts
@@ -135,11 +137,13 @@ final public class Animate {
     		}
     		
     		int x = xArr[i]; 
+    		//Path for rocket
     	    double yVal = .00065*(x*x) -x +500;
     	    yArr[0] = (int)yVal;	yArrR[0] = (int)yVal +1;
     	    yArr[1] = (int)yVal -5; yArrR[1] = (int)yVal+3;
     	    yArr[2] = (int)yVal;	yArrR[2] = (int)yVal+6;
     	    yArr[3] = (int)yVal+5;	yArrR[3] = (int)yVal+1;
+    	    //Turns off thrusters
     	    if(xArr[0] > frame.getWidth() -800 && fire > 0) {
     	    	fire --;
     	    }else if(xArr[0] < frame.getWidth() - 800) {
@@ -150,12 +154,13 @@ final public class Animate {
     	sleepTime++;
     	}   
     
-    private void checkBounds(){    	      
+    private void checkBounds(){
+    	//Places comet to its original spot after it crosses the boundaries of the screen
         if( (cometX > frame.getWidth() +500) && (cometY >frame.getHeight()+ 500) ) {
         	cometX = -1000;
         	cometY = -300;
         }
-        
+        //Sets rocket back to its original spot once its path is over
         if(xArr[1] > frame.getWidth() -175 ){
         	dotW += 360;
     		
