@@ -19,8 +19,12 @@ final public class Animate {
     private int cometX = 0;
     private int cometY = 0;
     private int dotW = 0;
-        		
     
+    private int rocketX = 750;
+    private int rocketY = -100;
+    
+    private int relativeX =0;
+    private int relativeY =0;
     boolean up = false;
     boolean down = true;
     boolean left = false;
@@ -29,6 +33,8 @@ final public class Animate {
     int[] xCont = new int[] {-20, 50, 30, 300, 350, 300, 200}; int[] yCont = new int[] {320, 400, 600, 800, 600, 420, 340};
     int[] xArr = new int[]{100, 115, 117, 102};  int[] yArr = new int[]{400, 395, 400, 405};//rocket
     int[] xArrR = new int[] {101, 102, 100, 98}; int[] yArrR = new int[] {401, 403, 405, 401};//rocket thrusts
+    //Second Scene Rocket
+    int[] rockX = new int[] {860, 910, 900, 850}; int[] rockY = new int[] {400, 500, 500, 400};
     public static void main(String[] args) {
         new Animate().go();
     }
@@ -101,7 +107,24 @@ final public class Animate {
             //Explosion
             g.setColor(Color.RED);
             g.fillArc(1312, 300, 25, 25, 10, dotW);
-            
+            //Post Explosion
+            //Background Scene 2
+            g.setColor(Color.BLACK);
+            g.fillRect(relativeX, relativeY, 1500, 800);
+            g.setColor(Color.LIGHT_GRAY);
+            g.fillOval(relativeX-3400, relativeY+500, 9000, 1600);
+            g.setColor(Color.GRAY);
+            g.fillOval(relativeX+1200, relativeY+500, 100, 20);
+            g.setColor(Color.DARK_GRAY);
+            g.fillOval(relativeX+1220, relativeY+505, 50, 10);
+            g.setColor(Color.GRAY);
+            g.fillOval(relativeX+1020, relativeY+705, 1550, 500);
+            //Rocket Landing
+            g.setColor(Color.WHITE);
+            g.fillRoundRect(relativeX+rocketX, relativeY+rocketY, 100, 150, 20, 20);
+            g.setColor(Color.GRAY);
+            g.fillRect(rocketX, rocketY, 100, 10);
+            g.fillPolygon(rockX, rockY, 4);
             
             
             
@@ -112,12 +135,17 @@ final public class Animate {
    
     private void moveDot() {
         while(true){
+    	if(relativeX != 0 && relativeY != 0) {
             checkBounds();
             startComet();
+            startRocket();
+
+        }else {
+        	startLanding();
+        }
             try{
                 Thread.sleep(10);
             } catch (Exception exc){}
-            startRocket();
 
             frame.repaint();
         }
@@ -125,6 +153,11 @@ final public class Animate {
     private void startComet() {
     	cometX+=2;
     	cometY+= 1;
+    }
+    private void startLanding() {
+    	if(rocketY < 550) {
+    	rocketY++;
+    	}
     }
     private void startRocket(){
     	if(sleepTime > 100) {
@@ -173,7 +206,10 @@ final public class Animate {
         	xArr[3] = 102;
         	yArr[3] = 405;
         	xArrR = new int[] {101, 102, 100, 98}; yArrR = new int[] {401, 403, 405, 401};
+        	relativeX = 0; relativeY = 0;
+        	
         	}
+        
         }
     }
     
