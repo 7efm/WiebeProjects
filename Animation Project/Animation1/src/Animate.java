@@ -14,7 +14,7 @@ final public class Animate {
     private Color BrownL = new Color(242, 233, 228);
     private Color orangeRedTrans = new Color(250, 121, 33);
     private Color green2 = new Color(155, 197, 61);
-    
+    private int fire2 = 45;
     private int fire = 0;
     private int cometX = 0;
     private int cometY = 0;
@@ -23,8 +23,8 @@ final public class Animate {
     private int rocketX = 750;
     private int rocketY = -100;
     
-    private int relativeX =0;
-    private int relativeY =0;
+    private int relativeX =40000;
+    private int relativeY =40000;
     boolean up = false;
     boolean down = true;
     boolean left = false;
@@ -34,7 +34,8 @@ final public class Animate {
     int[] xArr = new int[]{100, 115, 117, 102};  int[] yArr = new int[]{400, 395, 400, 405};//rocket
     int[] xArrR = new int[] {101, 102, 100, 98}; int[] yArrR = new int[] {401, 403, 405, 401};//rocket thrusts
     //Second Scene Rocket
-    int[] rockX = new int[] {860, 910, 900, 850}; int[] rockY = new int[] {400, 500, 500, 400};
+    int[] rockX = new int[] {rocketY+4940, rocketY+4990, rocketY+4980, rocketY+4930}; int[] rockY = new int[] {rocketY+4100, rocketY+4200, rocketY+4200,rocketY+4100};
+    int[] rockX2 = new int[] {rocketY+4860, rocketY+4810, rocketY+4820, rocketY+4870}; int[] rockY2 = new int[] {rocketY+4100, rocketY+4200, rocketY+4200,rocketY+4100};
     public static void main(String[] args) {
         new Animate().go();
     }
@@ -120,11 +121,16 @@ final public class Animate {
             g.setColor(Color.GRAY);
             g.fillOval(relativeX+1020, relativeY+705, 1550, 500);
             //Rocket Landing
+            g.setColor(Color.GRAY);
+            g.fillPolygon(rockX, rockY, 4);
+            g.fillPolygon(rockX2, rockY2, 4);
             g.setColor(Color.WHITE);
             g.fillRoundRect(relativeX+rocketX, relativeY+rocketY, 100, 150, 20, 20);
-            g.setColor(Color.GRAY);
+            g.setColor(Color.GRAY); 
             g.fillRect(rocketX, rocketY, 100, 10);
-            g.fillPolygon(rockX, rockY, 4);
+            g.setColor(orangeRedTrans);
+            g.fillArc(relativeX+725, relativeY+rocketY+160, 150,150, 68, fire2);
+            
             
             
             
@@ -142,6 +148,8 @@ final public class Animate {
 
         }else {
         	startLanding();
+            checkBounds();
+
         }
             try{
                 Thread.sleep(10);
@@ -155,8 +163,17 @@ final public class Animate {
     	cometY+= 1;
     }
     private void startLanding() {
+    	relativeX = 0; relativeY =  0;
     	if(rocketY < 550) {
     	rocketY++;
+    	System.out.println(rocketY);
+    	for(int i = 0; i < rockY.length; i++) {
+    		rockY[i]++;
+    		rockY2[i]++;
+    	}
+    	}
+    	if(rocketY >= 450 && fire2 >=1) {
+    		fire2--;
     	}
     }
     private void startRocket(){
@@ -207,8 +224,21 @@ final public class Animate {
         	yArr[3] = 405;
         	xArrR = new int[] {101, 102, 100, 98}; yArrR = new int[] {401, 403, 405, 401};
         	relativeX = 0; relativeY = 0;
+        	rockX = new int[] {rocketY+940, rocketY+990, rocketY+980, rocketY+930}; rockY = new int[] {rocketY+100, rocketY+200, rocketY+200,rocketY+100};
+            rockX2 = new int[] {rocketY+860, rocketY+810, rocketY+820, rocketY+870};rockY2 = new int[] {rocketY+100, rocketY+200, rocketY+200,rocketY+100};
+        	
         	
         	}
+        
+        
+        if(rocketY >= 550) {
+        	fire2 = 45;
+        	relativeX = 40000; relativeY = 40000;
+        	rocketY = -100;
+        	rockX = new int[] {rocketY+4940, rocketY+4990, rocketY+4980, rocketY+4930}; rockY = new int[] {rocketY+100, rocketY+200, rocketY+200,rocketY+100};
+            rockX2 = new int[] {rocketY+4860, rocketY+4810, rocketY+4820, rocketY+4870};rockY2 = new int[] {rocketY+100, rocketY+200, rocketY+200,rocketY+100};
+        	
+        }
         
         }
     }
